@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zarvellaa Lifestyle | Premium Fashion</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;
+background:#080807;
+color:#f8f3e8;
+font-family:Arial,sans-serif
+}
+a{text-decoration:none;color:inherit}
+
+.top{
+background:#171209;
+color:#e8c879;
+text-align:center;
+padding:10px;
+font-size:11px;
+letter-spacing:1.5px
+}
+
+header{
+position:sticky;
+top:0;
+z-index:10;
+background:rgba(8,8,7,.96);
+border-bottom:1px solid #5d4a25
+}
+
+nav{
+max-width:1200px;
+margin:auto;
+padding:15px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.logo-circle{
+width:50px;
+height:50px;
+border:1px solid #e7c77b;
+border-radius:50%;
+display:grid;
+place-items:center;
+font:26px Georgia;
+color:#e7c77b
+}
+
+.logo-text{
+font:20px Georgia;
+letter-spacing:3px
+}
+
+.logo-text small{
+display:block;
+font:9px Arial;
+letter-spacing:5px;
+color:#e7c77b;
+margin-top:3px
+}
+
+.links{
+display:flex;
+gap:22px;
+font-size:12px;
+letter-spacing:1px
+}
+
+.links a:hover{color:#e7c77b}
+
+.social{
+display:flex;
+gap:8px
+}
+
+.social a{
+width:44px;
+height:44px;
+border:1px solid #8d7138;
+border-radius:50%;
+display:grid;
+place-items:center;
+font-size:20px;
+background:#11100d
+}
+
+.hero{
+min-height:620px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:70px 20px;
+background:
+radial-gradient(circle at center,#3a2b12 0,#11100c 38%,#050504 75%)
+}
+
+.hero-content{max-width:850px}
+
+.gold{
+color:#e7c77b
+}
+
+.eyebrow{
+color:#e7c77b;
+font-size:11px;
+letter-spacing:4px;
+text-transform:uppercase
+}
+
+h1{
+font:normal 70px/1.05 Georgia,serif;
+margin:20px 0
+}
+
+.hero p{
+max-width:650px;
+margin:0 auto 30px;
+color:#bdb5a7;
+line-height:1.8
+}
+
+.btn{
+display:inline-block;
+padding:15px 25px;
+background:linear-gradient(135deg,#f5dda0,#cda957);
+color:#161108;
+font-weight:bold;
+font-size:12px;
+letter-spacing:1px
+}
+
+.trust{
+max-width:1100px;
+margin:-35px auto 0;
+position:relative;
+padding:0 15px
+}
+
+.trust-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+background:#12100c;
+border:1px solid #5d4a25
+}
+
+.trust-item{
+padding:22px 10px;
+text-align:center;
+border-right:1px solid #5d4a25
+}
+
+.trust-item:last-child{border:0}
+
+.trust-item b{
+display:block;
+color:#e7c77b;
+font-size:13px;
+margin-bottom:5px
+}
+
+.trust-item span{
+font-size:10px;
+color:#aaa194
+}
+
+section{
+max-width:1150px;
+margin:auto;
+padding:85px 20px
+}
+
+.heading{
+text-align:center;
+margin-bottom:45px
+}
+
+.heading h2{
+font:normal 45px Georgia,serif;
+margin:10px 0
+}
+
+.heading p{
+color:#aaa194
+}
+
+.categories{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px
+}
+
+.category{
+border:1px solid #5d4a25;
+background:#11100d;
+padding:35px 15px;
+text-align:center
+}
+
+.category .icon{
+font-size:42px;
+margin-bottom:15px
+}
+
+.category h3{
+font:23px Georgia;
+margin:8px
+}
+
+.category p{
+color:#aaa194;
+font-size:12px
+}
+
+.offer{
+margin:20px;
+padding:60px 20px;
+text-align:center;
+border:1px solid #e7c77b;
+background:radial-gradient(circle,#30230e,#0d0c09)
+}
+
+.offer strong{
+display:block;
+font:65px Georgia;
+color:#f3d98e
+}
+
+.offer h2{
+font:38px Georgia;
+margin:5px
+}
+
+.offer p{
+color:#aaa194;
+margin-bottom:25px
+}
+
+.contact{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px
+}
+
+.card{
+border:1px solid #5d4a25;
+background:#11100d;
+padding:30px
+}
+
+.card h3{
+font:28px Georgia;
+color:#e7c77b
+}
+
+.card p{
+color:#bdb5a7;
+line-height:2
+}
+
+.big-socials{
+display:flex;
+gap:12px;
+margin-top:20px
+}
+
+.big-socials a{
+padding:14px 18px;
+border:1px solid #8d7138;
+color:#e7c77b;
+font-size:12px
+}
+
+footer{
+text-align:center;
+padding:40px 20px;
+border-top:1px solid #5d4a25;
+color:#aaa194
+}
+
+.whatsapp{
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:20;
+width:65px;
+height:65px;
+border-radius:50%;
+background:#20b866;
+display:grid;
+place-items:center;
+font-size:30px;
+box-shadow:0 8px 30px #000
+}
+
+@media(max-width:800px){
+.links{display:none}
+.categories{grid-template-columns:1fr 1fr}
+.trust-grid{grid-template-columns:1fr 1fr}
+.trust-item:nth-child(2){border-right:0}
+.contact{grid-template-columns:1fr}
+h1{font-size:48px}
+}
+
+@media(max-width:500px){
+nav{padding:12px}
+.logo-circle{width:42px;height:42px}
+.logo-text{font-size:16px}
+.social a{width:40px;height:40px}
+.hero{min-height:560px}
+.categories{gap:10px}
+.category{padding:25px 8px}
+.category h3{font-size:18px}
+.trust-item{padding:18px 5px}
+.offer strong{font-size:48px}
+.offer h2{font-size:28px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="top">
+🚚 ALL INDIA & INTERNATIONAL DELIVERY • ✨ EXCLUSIVE COLLECTIONS • 💎 PREMIUM FASHION
+</div>
+
+<header>
+<nav>
+
+<a href="#" class="logo">
+<div class="logo-circle">Z</div>
+<div class="logo-text">
+ZARVELLAA
+<small>LIFESTYLE</small>
+</div>
+</a>
+
+<div class="links">
+<a href="#collections">Collections</a>
+<a href="#offer">Offer</a>
+<a href="#contact">Contact</a>
+</div>
+
+<div class="social">
+<a href="https://www.instagram.com/zarvellaa_lifestyle/" target="_blank">◎</a>
+<a href="https://www.facebook.com/share/1Bw47Jarp7/" target="_blank">f</a>
+<a href="https://wa.me/916289277681" target="_blank">◉</a>
+</div>
+
+</nav>
+</header>
+
+<div class="hero">
+<div class="hero-content">
+
+<div class="eyebrow">Zarvellaa Lifestyle</div>
+
+<h1>
+Style that<br>
+<span class="gold">feels timeless.</span>
+</h1>
+
+<p>
+Discover elegant sarees, ethnic wear, kurtis, dresses and refined men's fashion — curated for every special occasion.
+</p>
+
+<a class="btn" href="#collections">
+EXPLORE COLLECTION →
+</a>
+
+</div>
+</div>
+
+<div class="trust">
+<div class="trust-grid">
+
+<div class="trust-item">
+<b>🚚 ALL INDIA</b>
+<span>Delivery Available</span>
+</div>
+
+<div class="trust-item">
+<b>🌍 INTERNATIONAL</b>
+<span>Worldwide Delivery</span>
+</div>
+
+<div class="trust-item">
+<b>📦 BOOK YOUR ORDER</b>
+<span>Easy WhatsApp Ordering</span>
+</div>
+
+<div class="trust-item">
+<b>🎁 15% OFF</b>
+<span>First Purchase Offer</span>
+</div>
+
+</div>
+</div>
+
+<section id="collections">
+
+<div class="heading">
+<div class="eyebrow">Shop By Category</div>
+<h2>Our Collections</h2>
+<p>Exclusive fashion for women and men.</p>
+</div>
+
+<div class="categories">
+
+<a class="category" href="https://wa.me/916289277681?text=I%20want%20to%20shop%20Sarees" target="_blank">
+<div class="icon">🥻</div>
+<h3>Sarees</h3>
+<p>Elegant & Timeless</p>
+</a>
+
+<a class="category" href="https://wa.me/916289277681?text=I%20want%20to%20shop%20Kurtis%20and%20Ethnic%20Wear" target="_blank">
+<div class="icon">👗</div>
+<h3>Ethnic Wear</h3>
+<p>Kurtis & Dresses</p>
+</a>
+
+<a class="category" href="https://wa.me/916289277681?text=I%20want%20to%20shop%20Mens%20Collection" target="_blank">
+<div class="icon">👔</div>
+<h3>Men's Collection</h3>
+<p>Modern Essentials</p>
+</a>
+
+<a class="category" href="https://wa.me/916289277681?text=I%20want%20to%20see%20your%20Exclusive%20Collection" target="_blank">
+<div class="icon">✨</div>
+<h3>Exclusive</h3>
+<p>New Arrivals</p>
+</a>
+
+</div>
+</section>
+
+<div class="offer" id="offer">
+
+<div class="eyebrow">Exclusive First Purchase</div>
+
+<strong>15% OFF</strong>
+
+<h2>Your First Order</h2>
+
+<p>
+Book your favourite Zarvellaa Lifestyle collection today.
+</p>
+
+<a class="btn"
+href="https://wa.me/916289277681?text=Hello%20Zarvellaa%20Lifestyle%2C%20I%20want%20to%20book%20my%20first%20order"
+target="_blank">
+📦 BOOK YOUR ORDER ON WHATSAPP
+</a>
+
+</div>
+
+<section id="contact">
+
+<div class="heading">
+<div class="eyebrow">Get In Touch</div>
+<h2>Let's Find Your Style.</h2>
+<p>Contact us for products, sizes, prices and orders.</p>
+</div>
+
+<div class="contact">
+
+<div class="card">
+
+<h3>📦 Book Your Order</h3>
+
+<p>
+📱 <b>WhatsApp:</b> +91 62892 77681<br>
+📞 <b>Call:</b> +91 90519 74131<br>
+📞 <b>Call:</b> +91 84204 63696<br>
+🚚 <b>Delivery:</b> All India & International
+</p>
+
+<a class="btn"
+href="https://wa.me/916289277681?text=Hello%20Zarvellaa%20Lifestyle%2C%20I%20want%20to%20place%20an%20order"
+target="_blank">
+💬 ORDER ON WHATSAPP
+</a>
+
+</div>
+
+<div class="card">
+
+<h3>Follow Zarvellaa</h3>
+
+<p>
+Follow us for new arrivals, exclusive collections and special offers.
+</p>
+
+<div class="big-socials">
+
+<a href="https://www.instagram.com/zarvellaa_lifestyle/" target="_blank">
+📸 INSTAGRAM
+</a>
+
+<a href="https://www.facebook.com/share/1Bw47Jarp7/" target="_blank">
+f FACEBOOK
+</a>
+
+<a href="https://wa.me/916289277681" target="_blank">
+💬 WHATSAPP
+</a>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<a class="whatsapp"
+href="https://wa.me/916289277681?text=Hello%20Zarvellaa%20Lifestyle%2C%20I%20want%20to%20shop"
+target="_blank">
+💬
+</a>
+
+<footer>
+
+<div class="logo" style="justify-content:center">
+<div class="logo-circle">Z</div>
+<div class="logo-text">
+ZARVELLAA
+<small>LIFESTYLE</small>
+</div>
+</div>
+
+<p>Exclusive Fashion • All India & International Delivery</p>
+
+<p>© 2026 Zarvellaa Lifestyle. All rights reserved.</p>
+
+</footer>
+
+</body>
+</html>

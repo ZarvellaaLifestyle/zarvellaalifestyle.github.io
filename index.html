@@ -257,6 +257,37 @@ footer .brand-logo{width:210px;height:100px;object-fit:contain}
 }
 </style>
 
+
+<style>
+.shop-tools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:-15px auto 30px}
+.shop-tools input,.shop-tools select{padding:13px 15px;border:1px solid #d9c7a7;background:#fff;color:#171513;border-radius:2px;min-width:210px}
+.product-slider{position:relative}
+.product-track{display:flex;gap:15px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:5px 2px 20px;scrollbar-width:none}
+.product-track::-webkit-scrollbar{display:none}
+.product-track .product{flex:0 0 calc(20% - 12px);scroll-snap-align:start}
+.slider-controls{display:flex;justify-content:center;gap:10px;margin-top:12px}
+.slider-btn{width:44px;height:44px;border:1px solid #d9c7a7;background:#fff;border-radius:50%;cursor:pointer;font-size:18px}
+.add-cart{display:block;margin:10px 15px 0;padding:10px 12px;width:calc(100% - 30px);border:1px solid #c9a45c;background:#171513;color:#fff;cursor:pointer;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.cart-bar{position:fixed;left:18px;bottom:18px;z-index:41;background:#171513;color:#fff;padding:13px 18px;border:1px solid #c9a45c;border-radius:999px;box-shadow:0 12px 35px rgba(0,0,0,.2);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+.cart-panel{position:fixed;right:0;top:0;width:min(410px,94vw);height:100vh;background:#fff;z-index:100;box-shadow:-20px 0 60px rgba(0,0,0,.18);transform:translateX(105%);transition:.35s;padding:28px;overflow:auto}
+.cart-panel.open{transform:translateX(0)}
+.cart-panel h3{font:400 30px Georgia,serif;margin-top:0}
+.cart-close{float:right;border:0;background:none;font-size:24px;cursor:pointer}
+.cart-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
+.cart-item img{width:65px;height:82px;object-fit:cover}
+.cart-item small{display:block;color:#756e66;margin-top:5px}
+.cart-total{font-weight:700;margin:22px 0}
+.checkout-form{display:grid;gap:10px}
+.checkout-form input,.checkout-form textarea{padding:12px;border:1px solid #d9c7a7;font:inherit}
+.checkout-form textarea{min-height:90px}
+@media(max-width:900px){.product-track .product{flex:0 0 calc(50% - 8px)}}
+@media(max-width:520px){
+ .product-track .product{flex:0 0 78%}
+ .shop-tools input,.shop-tools select{min-width:0;width:100%}
+ .cart-bar{left:12px;bottom:12px}
+}
+</style>
+
 </head>
 <body>
 <div class="topbar">ALL INDIA & INTERNATIONAL DELIVERY • EXCLUSIVE COLLECTIONS • PREMIUM FASHION</div>
@@ -301,13 +332,28 @@ footer .brand-logo{width:210px;height:100px;object-fit:contain}
 </section>
 
 <section id="new">
-<div class="section-head"><span>Featured edit</span><h2>New Arrivals</h2><p>Selected styles from the Zarvellaa Lifestyle collection. Message us on WhatsApp for size, availability and price.</p></div>
-<div class="products">
+<div class="section-head"><span>Featured edit</span><h2>New Arrivals</h2><p>Selected styles from the Zarvellaa Lifestyle collection. Add favourites to your cart or message us on WhatsApp.</p></div>
+<div class="shop-tools">
+  <input id="productSearch" type="search" placeholder="Search products...">
+  <select id="productCategory">
+    <option value="all">All Collections</option>
+    <option value="saree">Sarees</option>
+    <option value="ethnic">Ethnic Wear</option>
+    <option value="men">Men's Edit</option>
+  </select>
+</div>
+
+<div class="product-slider"><div class="product-track">
 <article class="product"><img src="https://raw.githubusercontent.com/ZarvellaaLifestyle/zarvellaalifestyle.github.io/main/Zarvellaa_Red_Saree.jpg" alt="Red saree"><div class="info"><h3>Red Statement Saree</h3><p>Elegant occasion wear</p><a href="https://wa.me/916289277681?text=I%20am%20interested%20in%20the%20Red%20Statement%20Saree." target="_blank">Enquire on WhatsApp →</a></div></article>
 <article class="product"><img src="https://raw.githubusercontent.com/ZarvellaaLifestyle/zarvellaalifestyle.github.io/main/Zarvellaa_White_Red_Saree.jpg" alt="White and red saree"><div class="info"><h3>Classic Heritage Saree</h3><p>Traditional luxury edit</p><a href="https://wa.me/916289277681?text=I%20am%20interested%20in%20the%20Classic%20Heritage%20Saree." target="_blank">Enquire on WhatsApp →</a></div></article>
 <article class="product"><img src="https://raw.githubusercontent.com/ZarvellaaLifestyle/zarvellaalifestyle.github.io/main/printed-anarkali.jpg" alt="Printed ethnic dress"><div class="info"><h3>Printed Anarkali</h3><p>Contemporary ethnic wear</p><a href="https://wa.me/916289277681?text=I%20am%20interested%20in%20the%20Printed%20Anarkali." target="_blank">Enquire on WhatsApp →</a></div></article>
 <article class="product"><img src="https://raw.githubusercontent.com/ZarvellaaLifestyle/zarvellaalifestyle.github.io/main/Zarvellaa_Grey_Mens_Polo.jpg" alt="Grey men's polo"><div class="info"><h3>Signature Polo — Grey</h3><p>Refined men's essentials</p><a href="https://wa.me/916289277681?text=I%20am%20interested%20in%20the%20Grey%20Signature%20Polo." target="_blank">Enquire on WhatsApp →</a></div></article>
 <article class="product"><img src="https://raw.githubusercontent.com/ZarvellaaLifestyle/zarvellaalifestyle.github.io/main/Zarvellaa_Black_Mens_Polo.jpg" alt="Black men's polo"><div class="info"><h3>Signature Polo — Black</h3><p>Minimal, premium style</p><a href="https://wa.me/916289277681?text=I%20am%20interested%20in%20the%20Black%20Signature%20Polo." target="_blank">Enquire on WhatsApp →</a></div></article>
+</div>
+<div class="slider-controls">
+  <button class="slider-btn" type="button" onclick="slideProducts(-1)">‹</button>
+  <button class="slider-btn" type="button" onclick="slideProducts(1)">›</button>
+</div>
 </div>
 </section>
 
@@ -356,6 +402,97 @@ document.querySelectorAll('img').forEach(function(img){
     this.alt='Zarvellaa Lifestyle';
   });
 });
+</script>
+
+
+<button class="cart-bar" type="button" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+<aside id="cartPanel" class="cart-panel">
+  <button class="cart-close" type="button" onclick="toggleCart()">×</button>
+  <h3>Your Cart</h3>
+  <div id="cartItems"><p style="color:#756e66">Your cart is empty.</p></div>
+  <div class="cart-total">Total: <span id="cartTotal">Contact for price</span></div>
+  <h4>Delivery Details</h4>
+  <form class="checkout-form" onsubmit="sendOrder(event)">
+    <input id="custName" required placeholder="Full name">
+    <input id="custPhone" required type="tel" placeholder="Mobile number">
+    <textarea id="custAddress" required placeholder="Full delivery address"></textarea>
+    <input id="custCity" required placeholder="City">
+    <input id="custState" required placeholder="State">
+    <input id="custPin" required inputmode="numeric" placeholder="PIN code">
+    <button class="btn gold" type="submit" style="width:100%;justify-content:center">Order on WhatsApp →</button>
+  </form>
+  <small style="display:block;margin-top:10px;color:#756e66">Online payment will be added later.</small>
+</aside>
+
+
+<script>
+(function(){
+  const cart=[];
+  const track=document.querySelector('.product-track');
+  const search=document.getElementById('productSearch');
+  const category=document.getElementById('productCategory');
+
+  window.slideProducts=function(dir){
+    if(track) track.scrollBy({left:dir*(track.clientWidth*.78),behavior:'smooth'});
+  };
+
+  document.querySelectorAll('.product').forEach((card)=>{
+    if(card.querySelector('.add-cart')) return;
+    const title=card.querySelector('h3')?.textContent?.trim() || 'Product';
+    const img=card.querySelector('img')?.getAttribute('src') || '';
+    const b=document.createElement('button');
+    b.className='add-cart';
+    b.type='button';
+    b.textContent='Add to Cart';
+    b.onclick=()=>{cart.push({title,img});renderCart();};
+    card.querySelector('.info')?.appendChild(b);
+  });
+
+  function renderCart(){
+    document.getElementById('cartCount').textContent=cart.length;
+    const box=document.getElementById('cartItems');
+    if(!cart.length){box.innerHTML='<p style="color:#756e66">Your cart is empty.</p>';return;}
+    box.innerHTML=cart.map((p,i)=>
+      '<div class="cart-item"><img src="'+p.img+'" alt=""><div><strong>'+p.title+
+      '</strong><small>Quantity: 1</small><button type="button" onclick="removeCart('+i+
+      ')" style="margin-top:7px;border:0;background:none;color:#8b2d2d;padding:0;cursor:pointer">Remove</button></div></div>'
+    ).join('');
+  }
+
+  window.removeCart=function(i){cart.splice(i,1);renderCart();};
+  window.toggleCart=function(){document.getElementById('cartPanel').classList.toggle('open');};
+
+  window.sendOrder=function(e){
+    e.preventDefault();
+    if(!cart.length){alert('Please add a product to cart first.');return;}
+    const products=cart.map(p=>p.title).join(', ');
+    const text =
+      'Hello Zarvellaa Lifestyle, I want to place an order.%0A%0AProducts: '+encodeURIComponent(products)+
+      '%0AName: '+encodeURIComponent(document.getElementById('custName').value)+
+      '%0AMobile: '+encodeURIComponent(document.getElementById('custPhone').value)+
+      '%0AAddress: '+encodeURIComponent(document.getElementById('custAddress').value)+
+      '%0ACity: '+encodeURIComponent(document.getElementById('custCity').value)+
+      '%0AState: '+encodeURIComponent(document.getElementById('custState').value)+
+      '%0APIN: '+encodeURIComponent(document.getElementById('custPin').value);
+    window.open('https://wa.me/916289277681?text='+text,'_blank');
+  };
+
+  function filterProducts(){
+    const q=(search?.value||'').toLowerCase();
+    const c=category?.value||'all';
+    document.querySelectorAll('.product').forEach(card=>{
+      const t=card.textContent.toLowerCase();
+      const matchCat =
+        c==='all' ||
+        (c==='saree' && t.includes('saree')) ||
+        (c==='ethnic' && (t.includes('anarkali') || t.includes('ethnic'))) ||
+        (c==='men' && t.includes('polo'));
+      card.style.display=(t.includes(q)&&matchCat)?'':'none';
+    });
+  }
+  search?.addEventListener('input',filterProducts);
+  category?.addEventListener('change',filterProducts);
+})();
 </script>
 
 </body>

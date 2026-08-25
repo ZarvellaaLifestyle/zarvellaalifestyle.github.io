@@ -483,7 +483,7 @@ document.querySelectorAll('img').forEach(function(img){
   <button class="cart-close" type="button" onclick="toggleCart()">×</button>
   <h3>Your Cart</h3>
   <div id="cartItems"><p style="color:#756e66">Your cart is empty.</p></div>
-  <div class="cart-total">Total: <span id="cartTotal">Contact for price</span></div>
+  <div class="cart-total">Total: <span id="cartTotal">Contact for price</span></div><button type="button" onclick="clearCart()" style="border:1px solid #ddd;background:#fff;padding:9px 12px;cursor:pointer;margin-bottom:18px">Clear Cart</button>
   <h4>Delivery Details</h4>
   <form class="checkout-form" onsubmit="sendOrder(event)">
     <input id="custName" required placeholder="Full name">
@@ -492,7 +492,7 @@ document.querySelectorAll('img').forEach(function(img){
     <input id="custCity" required placeholder="City">
     <input id="custState" required placeholder="State">
     <input id="custPin" required inputmode="numeric" placeholder="PIN code">
-    <button class="btn gold" type="submit" style="width:100%;justify-content:center">Order on WhatsApp →</button>
+    <button class="btn gold" type="submit" style="width:100%;justify-content:center">Confirm Order on WhatsApp →</button>
   </form>
   <small style="display:block;margin-top:10px;color:#756e66">Online payment will be added later.</small>
 </aside>
@@ -500,8 +500,8 @@ document.querySelectorAll('img').forEach(function(img){
 
 <script>
 (function(){
-  const cart=[];
-  const wishlist=[];
+  const cart=JSON.parse(localStorage.getItem('zarvellaaCart')||'[]');
+  const wishlist=JSON.parse(localStorage.getItem('zarvellaaWishlist')||'[]');
   const track=document.querySelector('.product-track');
   const search=document.getElementById('productSearch');
   const category=document.getElementById('productCategory');
@@ -510,7 +510,10 @@ document.querySelectorAll('img').forEach(function(img){
   window.toggleCart=function(){document.getElementById('cartPanel').classList.toggle('open');};
   window.toggleWishlist=function(){document.getElementById('wishlistPanel').classList.toggle('open');};
 
+  function saveState(){ localStorage.setItem('zarvellaaCart',JSON.stringify(cart)); localStorage.setItem('zarvellaaWishlist',JSON.stringify(wishlist)); }
+
   function renderCart(){
+    saveState();
     document.getElementById('cartCount').textContent=cart.reduce((n,p)=>n+p.qty,0);
     const box=document.getElementById('cartItems');
     if(!cart.length){box.innerHTML='<p style="color:#756e66">Your cart is empty.</p>';return;}
@@ -518,6 +521,7 @@ document.querySelectorAll('img').forEach(function(img){
   }
   window.changeQty=function(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);renderCart();};
   window.removeCart=function(i){cart.splice(i,1);renderCart();};
+  window.clearCart=function(){cart.length=0;renderCart();};
 
   function addToCart(card){
     const title=card.querySelector('h3')?.textContent?.trim()||'Product';
@@ -529,18 +533,19 @@ document.querySelectorAll('img').forEach(function(img){
   }
 
   function renderWishlist(){
+    saveState();
     document.getElementById('wishCount').textContent=wishlist.length;
     const box=document.getElementById('wishlistItems');
     if(!wishlist.length){box.innerHTML='<p style="color:#756e66">Your wishlist is empty.</p>';return;}
     box.innerHTML=wishlist.map((p,i)=>'<div class="wish-item"><img src="'+p.img+'" alt=""><div><strong>'+p.title+'</strong><br><button type="button" onclick="wishToCart('+i+')" style="margin-top:8px;border:1px solid #d9c7a7;background:#171513;color:#fff;padding:8px 10px;cursor:pointer">Add to Cart</button> <button type="button" onclick="removeWish('+i+')" style="margin-top:8px;border:0;background:none;color:#8b2d2d;cursor:pointer">Remove</button></div></div>').join('');
   }
-  window.removeWish=function(i){wishlist.splice(i,1);renderWishlist();updateWishButtons();};
-  window.wishToCart=function(i){const p=wishlist[i];const found=cart.find(x=>x.title===p.title);if(found)found.qty++;else cart.push({title:p.title,img:p.img,qty:1});renderCart();};
+  window.removeWish=function(i){wishlist.splice(i,1);saveState();renderWishlist();updateWishButtons();};
+  window.wishToCart=function(i){const p=wishlist[i];const found=cart.find(x=>x.title===p.title);if(found)found.qty++;else cart.push({title:p.title,img:p.img,qty:1});renderCart();document.getElementById('cartPanel').classList.add('open');};
   function updateWishButtons(){document.querySelectorAll('.wish-btn').forEach(b=>{const t=b.closest('.product').querySelector('h3').textContent.trim();const active=wishlist.some(x=>x.title===t);b.classList.toggle('active',active);b.textContent=active?'♥':'♡';});}
 
   document.querySelectorAll('.product').forEach(card=>{
     const add=card.querySelector('.add-cart'); if(add) add.addEventListener('click',()=>addToCart(card));
-    const wb=card.querySelector('.wish-btn'); if(wb) wb.addEventListener('click',()=>{const title=card.querySelector('h3').textContent.trim();const img=card.querySelector('img').src;const i=wishlist.findIndex(x=>x.title===title);if(i>=0)wishlist.splice(i,1);else wishlist.push({title,img});renderWishlist();updateWishButtons();});
+    const wb=card.querySelector('.wish-btn'); if(wb) wb.addEventListener('click',()=>{const title=card.querySelector('h3').textContent.trim();const img=card.querySelector('img').src;const i=wishlist.findIndex(x=>x.title===title);if(i>=0)wishlist.splice(i,1);else wishlist.push({title,img});saveState();renderWishlist();updateWishButtons();});
   });
 
   function filterProducts(){

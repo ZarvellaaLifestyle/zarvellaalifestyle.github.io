@@ -326,6 +326,17 @@ footer .brand-logo{width:210px;height:100px;object-fit:contain}
 .trust-card b{display:block;font:700 9px Arial;letter-spacing:2px;text-transform:uppercase;color:#a47a36;margin-bottom:7px}.trust-card span{font-size:11px;color:#756e66}
 @media(max-width:700px){.review-grid{grid-template-columns:1fr}.trust-row{grid-template-columns:1fr 1fr;padding-bottom:45px}.wishlist-float{bottom:84px;right:12px}}
 </style>
+
+<!-- ZARVELLAA REVIEWS BACKEND CONFIG -->
+<script>
+/*
+  After deploying the Google Apps Script backend, paste its Web App URL below.
+  Example:
+  
+*/
+const ZARVELLAA_REVIEWS_API = "";
+</script>
+
 </head>
 <body>
 <div class="topbar">ALL INDIA & INTERNATIONAL DELIVERY • EXCLUSIVE COLLECTIONS • PREMIUM FASHION</div>
@@ -430,7 +441,11 @@ footer .brand-logo{width:210px;height:100px;object-fit:contain}
 <select id="reviewRating" required><option value="5">★★★★★ — 5 stars</option><option value="4">★★★★☆ — 4 stars</option><option value="3">★★★☆☆ — 3 stars</option><option value="2">★★☆☆☆ — 2 stars</option><option value="1">★☆☆☆☆ — 1 star</option></select>
 <textarea id="reviewText" required placeholder="Tell us about your Zarvellaa experience..."></textarea>
 <button class="btn gold" type="submit" style="width:100%;justify-content:center">Submit Review</button>
-<p class="review-note">Reviews are saved on this device/browser. For public verified reviews across all customers, a database/backend will be needed later.</p>
+<div style="margin-top:14px;padding:14px 15px;border:1px solid #e4d5bd;background:#faf7f1;font-size:11px;line-height:1.7;color:#756e66">
+<strong style="color:#171513">Where will you receive it?</strong><br>
+Every submitted review opens a WhatsApp message to Zarvellaa Lifestyle, so you can check the customer’s name, rating and review directly in your WhatsApp chat.
+</div>
+<p class="review-note">After submitting, your review is also sent to Zarvellaa Lifestyle on WhatsApp for approval. You can see all customer reviews received in your WhatsApp chat.</p>
 </form>
 </div>
 </div>
@@ -569,9 +584,93 @@ document.querySelectorAll('img').forEach(function(img){
   const saved=JSON.parse(localStorage.getItem('zarvellaaReviews')||'[]');
   function addReviewToPage(r){const box=document.getElementById('reviewList');const div=document.createElement('div');div.className='review-card';div.innerHTML='<div class="review-stars">'+('★'.repeat(r.rating)+'☆'.repeat(5-r.rating))+'</div><p>“'+r.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'”</p><div class="review-meta">'+r.name.replace(/</g,'&lt;').replace(/>/g,'&gt;')+' · Customer review</div>';box.prepend(div);}
   saved.forEach(addReviewToPage);
-  reviewForm?.addEventListener('submit',e=>{e.preventDefault();const r={name:document.getElementById('reviewName').value.trim(),rating:Number(document.getElementById('reviewRating').value),text:document.getElementById('reviewText').value.trim()};saved.push(r);localStorage.setItem('zarvellaaReviews',JSON.stringify(saved));addReviewToPage(r);reviewForm.reset();alert('Thank you for your Zarvellaa review!');});
+  reviewForm?.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const name=document.getElementById('reviewName').value.trim();
+    const rating=Number(document.getElementById('reviewRating').value);
+    const reviewText=document.getElementById('reviewText').value.trim();
+    if(!name || !reviewText){ alert('Please enter your name and review.'); return; }
+
+    const review={name,rating,text:reviewText};
+    // Keep a local copy so the customer sees their review immediately on this device.
+    const local=JSON.parse(localStorage.getItem('zarvellaaReviews')||'[]');
+    local.push(review);
+    localStorage.setItem('zarvellaaReviews',JSON.stringify(local));
+    if(typeof addReviewToPage==='function') addReviewToPage(review);
+    reviewForm.reset();
+
+    const stars='★'.repeat(rating)+'☆'.repeat(5-rating);
+    const whatsappText=`Hello Zarvellaa Lifestyle, I want to submit a customer review.%0A%0AName: ${encodeURIComponent(name)}%0ARating: ${encodeURIComponent(stars)}%0AReview: ${encodeURIComponent(reviewText)}`;
+    window.open('https://wa.me/916289277681?text='+whatsappText,'_blank');
+
+    if(ZARVELLAA_REVIEWS_API){
+      try{
+        await fetch(ZARVELLAA_REVIEWS_API,{
+          method:'POST',
+          mode:'no-cors',
+          headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body:JSON.stringify(review)
+        });
+      }catch(err){ console.log('Review backend unavailable; WhatsApp submission still works.',err); }
+    }
+    alert('Thank you! Your review has been sent to Zarvellaa Lifestyle for approval.');
+});
   renderCart();renderWishlist();updateWishButtons();
 })();
+</script>
+
+
+<!-- Zarvellaa Review Approval helper: local-browser demo only -->
+<div id="reviewAdmin" style="max-width:900px;margin:30px auto;padding:22px;border:1px dashed #b99a62;border-radius:16px;display:none">
+  <h3>Zarvellaa Review Approval</h3>
+  <p style="opacity:.7">Approve reviews on this device after checking them in WhatsApp.</p>
+  <textarea id="approvedJson" rows="8" style="width:100%;padding:12px" placeholder='Paste approved reviews as JSON, e.g. [{"name":"A","rating":5,"text":"Excellent"}]'></textarea>
+  <button onclick="saveApprovedReviews()" style="margin-top:10px;padding:12px 18px">Publish Approved Reviews</button>
+</div>
+<script>
+function saveApprovedReviews(){
+  try{
+    const data=JSON.parse(document.getElementById('approvedJson').value);
+    if(!Array.isArray(data)) throw new Error();
+    localStorage.setItem('zarvellaaApprovedReviews',JSON.stringify(data));
+    location.reload();
+  }catch(e){alert('Please enter valid review JSON.');}
+}
+</script>
+
+
+<section id="review-owner-note" style="max-width:900px;margin:25px auto;padding:18px 20px;border:1px solid #e0d0b8;border-radius:16px;background:#faf7f1">
+  <strong>Owner note:</strong> Reviews submitted by customers are stored in the connected Google Sheet after the backend URL is configured. Approve a review by changing its <b>Status</b> to <b>APPROVED</b>; approved reviews can then be loaded into the website.
+</section>
+
+
+<script>
+async function loadZarvellaaApprovedReviews(){
+  if(!ZARVELLAA_REVIEWS_API) return;
+  try{
+    const res=await fetch(ZARVELLAA_REVIEWS_API+"?action=approved",{cache:"no-store"});
+    const data=await res.json();
+    if(!Array.isArray(data)) return;
+    localStorage.setItem('zarvellaaApprovedReviews',JSON.stringify(data));
+    const box=document.getElementById('approvedReviews');
+    if(!box) return;
+    box.innerHTML=data.map(r=>{
+      const stars='★'.repeat(Number(r.rating||5))+'☆'.repeat(5-Number(r.rating||5));
+      const safeName=String(r.name||'Customer').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      const safeText=String(r.text||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      return `<article style="padding:24px;border:1px solid rgba(190,160,110,.35);border-radius:18px;background:rgba(255,255,255,.04)">
+        <div style="letter-spacing:2px">${stars}</div><p style="line-height:1.7;margin:14px 0">${safeText}</p>
+        <strong>${safeName}</strong><div style="font-size:11px;opacity:.65;margin-top:5px">✓ Verified Customer</div>
+      </article>`;
+    }).join('');
+    const summary=document.getElementById('reviewSummary');
+    if(summary && data.length){
+      const avg=data.reduce((a,r)=>a+Number(r.rating||0),0)/data.length;
+      summary.innerHTML=`${avg.toFixed(1)} ★★★★★ <span style="opacity:.6">(${data.length} Reviews)</span>`;
+    }
+  }catch(err){ console.log('Could not load approved reviews.',err); }
+}
+loadZarvellaaApprovedReviews();
 </script>
 
 </body>

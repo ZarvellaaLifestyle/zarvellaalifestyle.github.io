@@ -334,7 +334,7 @@ footer .brand-logo{width:210px;height:100px;object-fit:contain}
   Example:
   
 */
-const ZARVELLAA_REVIEWS_API = "";
+const ZARVELLAA_REVIEWS_API = "https://script.google.com/macros/s/AKfycbyNDUrSnzj67ZWHldHnhULbi9hpt2imf2c30yHlVn9p1zfLLQp3I3aMKWkZw3ZbkX0/exec";
 </script>
 
 </head>
@@ -591,12 +591,14 @@ document.querySelectorAll('img').forEach(function(img){
     const reviewText=document.getElementById('reviewText').value.trim();
     if(!name || !reviewText){ alert('Please enter your name and review.'); return; }
 
-    const review={name,rating,text:reviewText};
-    // Keep a local copy so the customer sees their review immediately on this device.
-    const local=JSON.parse(localStorage.getItem('zarvellaaReviews')||'[]');
-    local.push(review);
-    localStorage.setItem('zarvellaaReviews',JSON.stringify(local));
-    if(typeof addReviewToPage==='function') addReviewToPage(review);
+    const review={
+      name:name,
+      rating:rating,
+      text:reviewText,
+      review:reviewText,
+      status:"Pending",
+      source:"Website"
+    };
     reviewForm.reset();
 
     const stars='★'.repeat(rating)+'☆'.repeat(5-rating);
@@ -652,15 +654,25 @@ async function loadZarvellaaApprovedReviews(){
     const data=await res.json();
     if(!Array.isArray(data)) return;
     localStorage.setItem('zarvellaaApprovedReviews',JSON.stringify(data));
-    const box=document.getElementById('approvedReviews');
+    const box=document.getElementById('reviewList');
     if(!box) return;
-    box.innerHTML=data.map(r=>{
-      const stars='★'.repeat(Number(r.rating||5))+'☆'.repeat(5-Number(r.rating||5));
+    const liveId='zarvellaa-live-approved-reviews';
+    let live=document.getElementById(liveId);
+    if(!live){
+      live=document.createElement('div');
+      live.id=liveId;
+      live.style.cssText='display:grid;gap:16px;margin-top:16px';
+      box.appendChild(live);
+    }
+    live.innerHTML=data.map(r=>{
+      const rating=Math.max(1,Math.min(5,Number(r.rating||5)));
+      const stars='★'.repeat(rating)+'☆'.repeat(5-rating);
       const safeName=String(r.name||'Customer').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-      const safeText=String(r.text||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-      return `<article style="padding:24px;border:1px solid rgba(190,160,110,.35);border-radius:18px;background:rgba(255,255,255,.04)">
-        <div style="letter-spacing:2px">${stars}</div><p style="line-height:1.7;margin:14px 0">${safeText}</p>
-        <strong>${safeName}</strong><div style="font-size:11px;opacity:.65;margin-top:5px">✓ Verified Customer</div>
+      const safeText=String(r.text||r.review||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      return `<article class="review-card">
+        <div class="review-stars">${stars}</div>
+        <p>“${safeText}”</p>
+        <div class="review-meta">${safeName} · ✓ Verified Customer</div>
       </article>`;
     }).join('');
     const summary=document.getElementById('reviewSummary');
